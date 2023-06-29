@@ -118,7 +118,7 @@ $UpdateHistory = @"
               Now it can display multiple VPN access.
     v0.7.4 =  Modified layout when display multiple VPN access.
     v0.7.5 =  Added PAM accounts reset notification.
-
+    v0.7.6 =  Fixed a bug that unable to unlock user when account is locked in AD.
 
     Latest Releases: 
     https://github.com/lischen2014/AD-User-Management-Tool
@@ -723,7 +723,7 @@ function Unlock-AD {
                     Write-Host "No user selected" -f Red
                 }
                 else{
-                    if(((Get-AdUser -LDAPFilter $filter -properties LockedOut).LockedOut -eq $True) -or ($userfullinfo.AccountLockoutTime -eq $True)){
+                    if(((Get-AdUser -LDAPFilter $filter -properties LockedOut).LockedOut -eq $True) -or ($userfullinfo.AccountLockoutTime)){
                         Write-Host ""
                         Write-Msg ("User ", $id, " is locked out, ", "do you want to unlock this account?") -Color @($defaultcolor,"Red",$defaultcolor,$defaultcolor)
                         $decision = Prompt-Confirm -action 'Unlock account' -id $id -prompt $true
